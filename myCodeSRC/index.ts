@@ -18,7 +18,7 @@ const myp5 = new p5((s: p5) => {
   s.draw = function draw() {
     speed = s.map(s.mouseX, 0, s.width, 0, 50);
     s.background(0);
-    s.translate(s.width / 2, s.height / 2);
+    // s.translate(s.width / 2, s.height / 2);
     for (let i = 0; i < stars.length; i++) {
       stars[i].update();
       stars[i].show();
