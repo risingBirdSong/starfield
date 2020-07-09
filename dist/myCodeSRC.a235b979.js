@@ -419,42 +419,63 @@ var _p = _interopRequireDefault(require("p5"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const p5Instance = new _p.default(s => {
-  let mySample;
-  console.log("s ->", s);
+const myp5 = new _p.default(s => {
+  const stars = [];
+  let speed = 1;
 
-  s.setup = () => {
-    s.createCanvas(window.innerWidth, window.innerHeight);
-    mySample = new Sample(s.width / 2, s.height / 2, 50);
+  s.setup = function setup() {
+    s.createCanvas(600, 600);
+
+    for (let i = 0; i < 800; i++) {
+      stars[i] = new Star();
+    }
   };
 
-  s.draw = () => {
+  s.draw = function draw() {
+    speed = s.map(s.mouseX, 0, s.width, 0, 50);
     s.background(0);
-    mySample.draw();
+    s.translate(s.width / 2, s.height / 2);
+
+    for (let i = 0; i < stars.length; i++) {
+      stars[i].update();
+      stars[i].show();
+    }
   };
-});
 
-class Sample extends _p.default {
-  //@ts-ignore
-  constructor(x, y, size) {
-    //@ts-ignore
-    super(); //@ts-ignore
+  function Star() {
+    this.x = s.random(-s.width, s.width);
+    this.y = s.random(-s.height, s.height);
+    this.z = s.random(s.width);
+    this.pz = this.z;
 
-    this.x = x; //@ts-ignore
+    this.update = function () {
+      this.z = this.z - speed;
 
-    this.y = y; //@ts-ignore
+      if (this.z < 1) {
+        this.z = s.width;
+        this.x = s.random(-s.width, s.width);
+        this.y = s.random(-s.height, s.height);
+        this.pz = this.z;
+      }
+    };
 
-    this.size = size;
+    this.show = function () {
+      s.fill(255);
+      s.noStroke();
+      var sx = s.map(this.x / this.z, 0, 1, 0, s.width);
+      var sy = s.map(this.y / this.z, 0, 1, 0, s.height);
+      var r = s.map(this.z, 0, s.width, 16, 0);
+      s.ellipse(sx, sy, r, r);
+      var px = s.map(this.x / this.pz, 0, 1, 0, s.width);
+      var py = s.map(this.y / this.pz, 0, 1, 0, s.height);
+      this.pz = this.z;
+      s.stroke(255);
+      s.line(px, py, sx, sy);
+    };
   }
+}); // },'sketch1');
 
-  draw() {
-    p5Instance.fill(255);
-    p5Instance.circle(this.x, this.y, this.size);
-  }
-
-}
-
-var _default = p5Instance;
+var _default = myp5;
 exports.default = _default;
 },{"p5":"11de132231a16bd7acbbd8c4a944e183"}],"11de132231a16bd7acbbd8c4a944e183":[function(require,module,exports) {
 var define;
