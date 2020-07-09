@@ -18,21 +18,26 @@ const myp5 = new p5((s: p5) => {
   s.draw = function draw() {
     speed = s.map(s.mouseX, 0, s.width, 0, 50);
     s.background(0);
-    // s.translate(s.width / 2, s.height / 2);
+    s.translate(s.width / 2, s.height / 2);
     for (let i = 0; i < stars.length; i++) {
       stars[i].update();
       stars[i].show();
+      let myz = stars[i].z;
+
     }
   };
 
   function Star() {
-    this.x = s.random(-s.width, s.width);
-    this.y = s.random(-s.height, s.height);
+    // this.x = s.random(-s.width, s.width);
+    // this.y = s.random(-s.height, s.height);
+    this.x = s.width / 2 + s.random(-10, 10)
+    this.y = s.height / 2 + s.random(-10, 10)
     this.z = s.random(s.width);
     this.pz = this.z;
 
     this.update = function () {
       this.z = this.z - speed;
+
       if (this.z < 1) {
         this.z = s.width;
         this.x = s.random(-s.width, s.width);
@@ -57,7 +62,7 @@ const myp5 = new p5((s: p5) => {
       this.pz = this.z;
 
       s.stroke(255);
-      s.line(px, py, sx, sy);
+      s.line(px + 10, py + 10, sx, sy);
     };
   }
 });
